@@ -7,6 +7,8 @@ import com.example.android32.mvp.presenter.list.IUsersListPresenter
 import com.example.android32.mvp.view.UsersView
 import com.example.android32.mvp.view.list.IUserItemView
 import com.github.terrakok.cicerone.Router
+import io.reactivex.rxjava3.core.Observer
+import io.reactivex.rxjava3.disposables.Disposable
 import moxy.MvpPresenter
 
 class UsersPresenter(val usersRepo: GithubUsersRepo, val router: Router, val screens: IScreens) :
@@ -38,10 +40,11 @@ class UsersPresenter(val usersRepo: GithubUsersRepo, val router: Router, val scr
     }
 
     fun loadData() {
-        val users = usersRepo.getUsers()
-        usersListPresenter.users.clear()
-        usersListPresenter.users.addAll(users)
-        viewState.updateList()
+        val users = usersRepo.getUsers().subscribe({
+            usersListPresenter.users.addAll(it)
+            viewState.updateList()
+        }, {it.printStackTrace()}) //       usersListPresenter.users.addAll(users)
+
     }
 
     fun backClick(): Boolean {
