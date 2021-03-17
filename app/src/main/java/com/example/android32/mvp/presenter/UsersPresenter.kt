@@ -2,13 +2,14 @@ package com.example.android32.mvp.presenter
 
 import com.example.android32.mvp.model.GithubUsersRepo
 import com.example.android32.mvp.model.entity.GithubUser
+import com.example.android32.mvp.navigation.IScreens
 import com.example.android32.mvp.presenter.list.IUsersListPresenter
 import com.example.android32.mvp.view.UsersView
 import com.example.android32.mvp.view.list.IUserItemView
 import com.github.terrakok.cicerone.Router
 import moxy.MvpPresenter
 
-class UsersPresenter(val usersRepo: GithubUsersRepo, val router: Router) :
+class UsersPresenter(val usersRepo: GithubUsersRepo, val router: Router, val screens: IScreens) :
     MvpPresenter<UsersView>() {
 
     class UsersListPresenter : IUsersListPresenter {
@@ -32,7 +33,7 @@ class UsersPresenter(val usersRepo: GithubUsersRepo, val router: Router) :
 
         usersListPresenter.itemClickListener = { view ->
             val user = usersListPresenter.users[view.pos]
-            //router.navigateTo(screens.user(user))
+            router.navigateTo(screens.user(user))
         }
     }
 

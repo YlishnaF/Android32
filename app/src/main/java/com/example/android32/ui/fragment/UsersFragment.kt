@@ -6,23 +6,25 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.android32.databinding.FragmentUsersBinding
 import com.example.android32.mvp.model.GithubUsersRepo
+import com.example.android32.mvp.navigation.IScreens
 import com.example.android32.mvp.presenter.UsersPresenter
 import com.example.android32.mvp.view.UsersView
 import com.example.android32.ui.App
 import com.example.android32.ui.BackClickListener
 import com.example.android32.ui.adapter.UsersRVAdapter
+import com.example.android32.ui.navigation.AndroidScreens
+
 import moxy.MvpAppCompatFragment
 import moxy.ktx.moxyPresenter
 
-class UsersFragment : MvpAppCompatFragment(), UsersView,
-    BackClickListener {
+class UsersFragment : MvpAppCompatFragment(), UsersView, BackClickListener {
 
     companion object {
         fun newInstance() = UsersFragment()
     }
 
     private val presenter by moxyPresenter {
-        UsersPresenter(GithubUsersRepo(), App.instance.router)
+        UsersPresenter(GithubUsersRepo(), App.instance.router, AndroidScreens())
     }
 
     private var vb: FragmentUsersBinding? = null
